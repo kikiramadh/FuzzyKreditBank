@@ -1,0 +1,461 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+/* BODY */
+
+body{
+
+    font-family: 'Poppins', sans-serif;
+
+    background:
+    linear-gradient(135deg, #0f172a, #1e3a8a);
+
+    min-height: 100vh;
+
+    padding: 40px;
+}
+
+
+
+/* CONTAINER */
+
+.container{
+
+    max-width: 1400px;
+
+    margin: auto;
+
+    background:
+    rgba(255,255,255,0.08);
+
+    backdrop-filter: blur(15px);
+
+    border:
+    1px solid rgba(255,255,255,0.2);
+
+    border-radius: 25px;
+
+    padding: 40px;
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,0.35);
+
+    animation: fadeContainer 1s ease;
+}
+
+
+
+/* ANIMASI CONTAINER */
+
+@keyframes fadeContainer{
+
+    from{
+
+        opacity: 0;
+
+        transform: translateY(40px);
+    }
+
+    to{
+
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+}
+
+
+
+/* JUDUL */
+
+h1{
+
+    text-align: center;
+
+    color: white;
+
+    margin-bottom: 40px;
+
+    font-size: 38px;
+
+    letter-spacing: 1px;
+}
+
+
+
+/* LABEL */
+
+label{
+
+    display: block;
+
+    margin-top: 20px;
+
+    margin-bottom: 10px;
+
+    color: white;
+
+    font-weight: 500;
+
+    font-size: 16px;
+}
+
+
+
+/* INPUT */
+
+input{
+
+    width: 100%;
+
+    padding: 15px;
+
+    border-radius: 15px;
+
+    border: none;
+
+    outline: none;
+
+    font-size: 16px;
+
+    background:
+    rgba(255,255,255,0.15);
+
+    color: white;
+
+    backdrop-filter: blur(10px);
+
+    transition: 0.3s;
+}
+
+
+
+/* PLACEHOLDER */
+
+input::placeholder{
+
+    color:
+    rgba(255,255,255,0.7);
+}
+
+
+
+/* INPUT FOCUS */
+
+input:focus{
+
+    transform: scale(1.01);
+
+    box-shadow:
+    0 0 15px rgba(255,255,255,0.3);
+}
+
+
+
+/* BUTTON */
+
+button{
+
+    width: 100%;
+
+    margin-top: 35px;
+
+    padding: 16px;
+
+    border: none;
+
+    border-radius: 15px;
+
+    background:
+    linear-gradient(to right, #3b82f6, #2563eb);
+
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+
+
+/* BUTTON HOVER */
+
+button:hover{
+
+    transform: translateY(-3px);
+
+    box-shadow:
+    0 10px 25px rgba(37,99,235,0.5);
+}
+
+
+
+/* GRID HASIL */
+
+#hasil{
+
+    margin-top: 45px;
+
+    display: grid;
+
+    grid-template-columns:
+    repeat(auto-fit, minmax(320px, 1fr));
+
+    gap: 25px;
+}
+
+
+
+/* CARD */
+
+.card{
+
+    background:
+    rgba(255,255,255,0.12);
+
+    backdrop-filter: blur(12px);
+
+    border:
+    1px solid rgba(255,255,255,0.2);
+
+    border-radius: 22px;
+
+    padding: 25px;
+
+    color: white;
+
+    transition: 0.3s;
+
+    opacity: 0;
+
+    transform: translateY(30px);
+
+    animation:
+    munculCard 0.8s ease forwards;
+}
+
+
+
+/* DELAY ANIMASI */
+
+.card:nth-child(1){
+
+    animation-delay: 0.2s;
+}
+
+.card:nth-child(2){
+
+    animation-delay: 0.4s;
+}
+
+.card:nth-child(3){
+
+    animation-delay: 0.6s;
+}
+
+.card:nth-child(4){
+
+    animation-delay: 0.8s;
+}
+
+.card:nth-child(5){
+
+    animation-delay: 1s;
+}
+
+.card:nth-child(6){
+
+    animation-delay: 1.2s;
+}
+
+.card:nth-child(7){
+
+    animation-delay: 1.4s;
+}
+
+.card:nth-child(8){
+
+    animation-delay: 1.6s;
+}
+
+
+
+/* ANIMASI CARD */
+
+@keyframes munculCard{
+
+    from{
+
+        opacity: 0;
+
+        transform:
+        translateY(30px) scale(0.95);
+    }
+
+    to{
+
+        opacity: 1;
+
+        transform:
+        translateY(0) scale(1);
+    }
+}
+
+
+
+/* CARD HOVER */
+
+.card:hover{
+
+    transform: translateY(-5px);
+
+    box-shadow:
+    0 15px 35px rgba(0,0,0,0.25);
+}
+
+
+
+/* JUDUL CARD */
+
+.card h3{
+
+    margin-bottom: 20px;
+
+    font-size: 22px;
+
+    border-left: 5px solid #60a5fa;
+
+    padding-left: 12px;
+}
+
+
+
+/* TEXT */
+
+.card p{
+
+    margin: 12px 0;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+
+
+/* HASIL AKHIR */
+
+.hasil-akhir{
+
+    grid-column: 1 / -1;
+
+    text-align: center;
+
+    background:
+    rgba(34,197,94,0.15);
+
+    border:
+    1px solid rgba(34,197,94,0.4);
+}
+
+
+
+/* STATUS KEPUTUSAN */
+
+.status-keputusan{
+
+    padding: 22px;
+
+    border-radius: 18px;
+
+    font-size: 36px;
+
+    font-weight: bold;
+
+    margin-bottom: 25px;
+
+    letter-spacing: 1px;
+
+    color: white;
+
+    animation: glow 1.5s infinite alternate;
+}
+
+
+
+/* WARNA STATUS */
+
+.disetujui{
+
+    background:
+    linear-gradient(to right, #22c55e, #16a34a);
+}
+
+.dipertimbangkan{
+
+    background:
+    linear-gradient(to right, #facc15, #eab308);
+
+    color: black;
+}
+
+.ditolak{
+
+    background:
+    linear-gradient(to right, #ef4444, #dc2626);
+}
+
+
+
+/* ANIMASI GLOW */
+
+@keyframes glow{
+
+    from{
+
+        box-shadow:
+        0 0 10px rgba(255,255,255,0.15);
+    }
+
+    to{
+
+        box-shadow:
+        0 0 25px rgba(255,255,255,0.35);
+    }
+}
+
+
+
+/* RESPONSIVE */
+
+@media(max-width: 768px){
+
+    body{
+
+        padding: 20px;
+    }
+
+    .container{
+
+        padding: 25px;
+    }
+
+    h1{
+
+        font-size: 28px;
+    }
+
+    .status-keputusan{
+
+        font-size: 26px;
+    }
+}
