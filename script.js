@@ -1,4 +1,5 @@
 function prosesFuzzy(){
+    
     let penghasilan = parseFloat(document.getElementById("penghasilan").value);
     let lamaKerja = parseFloat(document.getElementById("lamaKerja").value);
     let riwayat = parseFloat(document.getElementById("riwayat").value);
