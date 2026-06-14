@@ -4,10 +4,6 @@
     box-sizing: border-box;
 }
 
-
-
-/* BODY */
-
 body{
 
     font-family: 'Poppins', sans-serif;
@@ -19,10 +15,6 @@ body{
 
     padding: 40px;
 }
-
-
-
-/* CONTAINER */
 
 .container{
 
@@ -48,10 +40,6 @@ body{
     animation: fadeContainer 1s ease;
 }
 
-
-
-/* ANIMASI CONTAINER */
-
 @keyframes fadeContainer{
 
     from{
@@ -69,10 +57,6 @@ body{
     }
 }
 
-
-
-/* JUDUL */
-
 h1{
 
     text-align: center;
@@ -85,10 +69,6 @@ h1{
 
     letter-spacing: 1px;
 }
-
-
-
-/* LABEL */
 
 label{
 
@@ -104,10 +84,6 @@ label{
 
     font-size: 16px;
 }
-
-
-
-/* INPUT */
 
 input{
 
@@ -133,19 +109,11 @@ input{
     transition: 0.3s;
 }
 
-
-
-/* PLACEHOLDER */
-
 input::placeholder{
 
     color:
     rgba(255,255,255,0.7);
 }
-
-
-
-/* INPUT FOCUS */
 
 input:focus{
 
@@ -154,10 +122,6 @@ input:focus{
     box-shadow:
     0 0 15px rgba(255,255,255,0.3);
 }
-
-
-
-/* BUTTON */
 
 button{
 
@@ -185,10 +149,6 @@ button{
     transition: 0.3s;
 }
 
-
-
-/* BUTTON HOVER */
-
 button:hover{
 
     transform: translateY(-3px);
@@ -196,10 +156,6 @@ button:hover{
     box-shadow:
     0 10px 25px rgba(37,99,235,0.5);
 }
-
-
-
-/* GRID HASIL */
 
 #hasil{
 
@@ -212,10 +168,6 @@ button:hover{
 
     gap: 25px;
 }
-
-
-
-/* CARD */
 
 .card{
 
@@ -242,10 +194,6 @@ button:hover{
     animation:
     munculCard 0.8s ease forwards;
 }
-
-
-
-/* DELAY ANIMASI */
 
 .card:nth-child(1){
 
@@ -287,10 +235,6 @@ button:hover{
     animation-delay: 1.6s;
 }
 
-
-
-/* ANIMASI CARD */
-
 @keyframes munculCard{
 
     from{
@@ -310,10 +254,6 @@ button:hover{
     }
 }
 
-
-
-/* CARD HOVER */
-
 .card:hover{
 
     transform: translateY(-5px);
@@ -321,10 +261,6 @@ button:hover{
     box-shadow:
     0 15px 35px rgba(0,0,0,0.25);
 }
-
-
-
-/* JUDUL CARD */
 
 .card h3{
 
@@ -337,10 +273,6 @@ button:hover{
     padding-left: 12px;
 }
 
-
-
-/* TEXT */
-
 .card p{
 
     margin: 12px 0;
@@ -349,10 +281,6 @@ button:hover{
 
     line-height: 1.7;
 }
-
-
-
-/* HASIL AKHIR */
 
 .hasil-akhir{
 
@@ -366,10 +294,6 @@ button:hover{
     border:
     1px solid rgba(34,197,94,0.4);
 }
-
-
-
-/* STATUS KEPUTUSAN */
 
 .status-keputusan{
 
@@ -389,10 +313,6 @@ button:hover{
 
     animation: glow 1.5s infinite alternate;
 }
-
-
-
-/* WARNA STATUS */
 
 .disetujui{
 
@@ -414,10 +334,6 @@ button:hover{
     linear-gradient(to right, #ef4444, #dc2626);
 }
 
-
-
-/* ANIMASI GLOW */
-
 @keyframes glow{
 
     from{
@@ -432,10 +348,6 @@ button:hover{
         0 0 25px rgba(255,255,255,0.35);
     }
 }
-
-
-
-/* RESPONSIVE */
 
 @media(max-width: 768px){
 
