@@ -1,9 +1,5 @@
 function prosesFuzzy(){
 
-    // =========================
-    // INPUT
-    // =========================
-
     let penghasilan =
     parseFloat(document.getElementById("penghasilan").value);
 
@@ -16,12 +12,7 @@ function prosesFuzzy(){
     let hutang =
     parseFloat(document.getElementById("hutang").value);
 
-
-
-    // =========================
-    // FUZZIFIKASI PENGHASILAN
-    // =========================
-
+    // Fuzzifikasi penghasilan
     let penghasilanRendah = 0;
     let penghasilanSedang = 0;
     let penghasilanTinggi = 0;
@@ -66,12 +57,7 @@ function prosesFuzzy(){
         penghasilanTinggi = 1;
     }
 
-
-
-    // =========================
-    // FUZZIFIKASI LAMA KERJA
-    // =========================
-
+    // Fuzzifikasi lama kerja
     let kerjaBaru = 0;
     let kerjaCukup = 0;
     let kerjaLama = 0;
@@ -116,12 +102,7 @@ function prosesFuzzy(){
         kerjaLama = 1;
     }
 
-
-
-    // =========================
-    // FUZZIFIKASI RIWAYAT
-    // =========================
-
+    // Fuzzfikasi riwayat
     let kreditBuruk = 0;
     let kreditSedang = 0;
     let kreditBaik = 0;
@@ -166,12 +147,7 @@ function prosesFuzzy(){
         kreditBaik = 1;
     }
 
-
-
-    // =========================
-    // FUZZIFIKASI HUTANG
-    // =========================
-
+    // Fuzzfikasi hutang
     let hutangRendah = 0;
     let hutangSedang = 0;
     let hutangTinggi = 0;
@@ -216,12 +192,7 @@ function prosesFuzzy(){
         hutangTinggi = 1;
     }
 
-
-
-    // =========================
-    // INFERENSI MAMDANI
-    // =========================
-
+    // Inferensi mamdani
     let r1 = Math.min(
         penghasilanTinggi,
         kreditBaik
@@ -234,7 +205,7 @@ function prosesFuzzy(){
 
     let r3 = Math.min(
         penghasilanSedang,
-        kreditSedang
+        kreditBaik
     );
 
     let r4 = Math.min(
@@ -267,12 +238,7 @@ function prosesFuzzy(){
         hutangTinggi
     );
 
-
-
-    // =========================
     // KOMPOSISI MAX
-    // =========================
-
     let ditolak = Math.max(
         r4,
         r5,
@@ -291,12 +257,7 @@ function prosesFuzzy(){
         r6
     );
 
-
-
-    // =========================
-    // DEFUZZIFIKASI REALTIME
-    // =========================
-
+    // DEFUZZIFIKASI
     let pembilang = 0;
     let penyebut = 0;
 
@@ -308,38 +269,32 @@ function prosesFuzzy(){
         let muDipertimbangkan = 0;
         let muDisetujui = 0;
 
-
-
-        // DITOLAK
-        if(z <= 50){
+        // Ditolak
+        if(z <= 40){
 
             muDitolak = 1;
         }
 
-        else if(z > 50 && z <= 60){
+        else if(z > 40 && z <= 50){
 
             muDitolak =
-            (60 - z) / (60 - 50);
+            (50 - z) / (50 - 40);
         }
 
-
-
-        // DIPERTIMBANGKAN
-        if(z > 50 && z <= 70){
+        // Dipertimbangkan
+        if(z > 40 && z <= 60){
 
             muDipertimbangkan =
-            (z - 50) / (70 - 50);
+            (z - 40) / (60 - 40);
         }
 
-        else if(z > 70 && z <= 80){
+        else if(z > 60 && z <= 80){
 
             muDipertimbangkan =
-            (80 - z) / (80 - 70);
+            (80 - z) / (80 - 60);
         }
 
-
-
-        // DISETUJUI
+        // Disetujui
         if(z > 70 && z <= 80){
 
             muDisetujui =
@@ -351,20 +306,31 @@ function prosesFuzzy(){
             muDisetujui = 1;
         }
 
+        // Clipping
+        let clipDitolak =
+        Math.min(ditolak, muDitolak);
 
-
-        // KOMPOSISI MAX
-
-        let alpha = Math.max(
-
-            Math.min(ditolak, muDitolak),
-
-            Math.min(dipertimbangkan, muDipertimbangkan),
-
-            Math.min(disetujui, muDisetujui)
+        let clipDipertimbangkan =
+        Math.min(
+            dipertimbangkan,
+            muDipertimbangkan
         );
 
+        let clipDisetujui =
+        Math.min(
+            disetujui,
+            muDisetujui
+        );
 
+        // Agregrasu global max
+        let alpha = Math.max(
+
+            clipDitolak,
+
+            clipDipertimbangkan,
+
+            clipDisetujui
+        );
 
         pembilang += z * alpha;
 
@@ -376,12 +342,7 @@ function prosesFuzzy(){
     let hasilCrisp =
     pembilang / penyebut;
 
-
-
-    // =========================
-    // KEPUTUSAN
-    // =========================
-
+    // hasil keputusan
     let keputusan = "";
 
     let warnaKeputusan = "";
@@ -409,43 +370,21 @@ function prosesFuzzy(){
         warnaKeputusan = "ditolak";
     }
 
-
-
-    // =========================
-    // OUTPUT
-    // =========================
-
+    // Output
     document.getElementById("hasil").innerHTML =
 
     `
 
     <div class="card hasil-akhir">
 
-    <div class="status-keputusan ${warnaKeputusan}">
-    ${keputusan}
-    </div>
+        <div class="status-keputusan ${warnaKeputusan}">
+        ${keputusan}
+        </div>
 
-    <h3>Hasil Akhir</h3>
+        <h3>Hasil Akhir</h3>
 
-    <p>Nilai Crisp :
-    ${hasilCrisp.toFixed(2)}</p>
-
-    </div>
-
-
-
-    <div class="card">
-
-    <h3>Hasil Fuzzifikasi Penghasilan</h3>
-
-    <p>Penghasilan Rendah :
-    ${penghasilanRendah.toFixed(2)}</p>
-
-    <p>Penghasilan Sedang :
-    ${penghasilanSedang.toFixed(2)}</p>
-
-    <p>Penghasilan Tinggi :
-    ${penghasilanTinggi.toFixed(2)}</p>
+        <p>Nilai Crisp :
+        ${hasilCrisp.toFixed(2)}</p>
 
     </div>
 
@@ -453,33 +392,16 @@ function prosesFuzzy(){
 
     <div class="card">
 
-    <h3>Hasil Fuzzifikasi Lama Kerja</h3>
+        <h3>Hasil Fuzzifikasi Penghasilan</h3>
 
-    <p>Lama Kerja Baru :
-    ${kerjaBaru.toFixed(2)}</p>
+        <p>Penghasilan Rendah :
+        ${penghasilanRendah.toFixed(2)}</p>
 
-    <p>Lama Kerja Cukup :
-    ${kerjaCukup.toFixed(2)}</p>
+        <p>Penghasilan Sedang :
+        ${penghasilanSedang.toFixed(2)}</p>
 
-    <p>Lama Kerja Lama :
-    ${kerjaLama.toFixed(2)}</p>
-
-    </div>
-
-
-
-    <div class="card">
-
-    <h3>Hasil Fuzzifikasi Riwayat Kredit</h3>
-
-    <p>Riwayat Kredit Buruk :
-    ${kreditBuruk.toFixed(2)}</p>
-
-    <p>Riwayat Kredit Sedang :
-    ${kreditSedang.toFixed(2)}</p>
-
-    <p>Riwayat Kredit Baik :
-    ${kreditBaik.toFixed(2)}</p>
+        <p>Penghasilan Tinggi :
+        ${penghasilanTinggi.toFixed(2)}</p>
 
     </div>
 
@@ -487,34 +409,16 @@ function prosesFuzzy(){
 
     <div class="card">
 
-    <h3>Hasil Fuzzifikasi Rasio Hutang</h3>
+        <h3>Hasil Fuzzifikasi Lama Kerja</h3>
 
-    <p>Rasio Hutang Rendah :
-    ${hutangRendah.toFixed(2)}</p>
+        <p>Lama Kerja Baru :
+        ${kerjaBaru.toFixed(2)}</p>
 
-    <p>Rasio Hutang Sedang :
-    ${hutangSedang.toFixed(2)}</p>
+        <p>Lama Kerja Cukup :
+        ${kerjaCukup.toFixed(2)}</p>
 
-    <p>Rasio Hutang Tinggi :
-    ${hutangTinggi.toFixed(2)}</p>
-
-    </div>
-
-
-
-    <div class="card">
-
-    <h3>Hasil Inferensi Mamdani</h3>
-
-    <p>R1 : ${r1.toFixed(2)}</p>
-    <p>R2 : ${r2.toFixed(2)}</p>
-    <p>R3 : ${r3.toFixed(2)}</p>
-    <p>R4 : ${r4.toFixed(2)}</p>
-    <p>R5 : ${r5.toFixed(2)}</p>
-    <p>R6 : ${r6.toFixed(2)}</p>
-    <p>R7 : ${r7.toFixed(2)}</p>
-    <p>R8 : ${r8.toFixed(2)}</p>
-    <p>R9 : ${r9.toFixed(2)}</p>
+        <p>Lama Kerja Lama :
+        ${kerjaLama.toFixed(2)}</p>
 
     </div>
 
@@ -522,16 +426,16 @@ function prosesFuzzy(){
 
     <div class="card">
 
-    <h3>Komposisi MAX</h3>
+        <h3>Hasil Fuzzifikasi Riwayat Kredit</h3>
 
-    <p>Ditolak :
-    ${ditolak.toFixed(2)}</p>
+        <p>Riwayat Kredit Buruk :
+        ${kreditBuruk.toFixed(2)}</p>
 
-    <p>Dipertimbangkan :
-    ${dipertimbangkan.toFixed(2)}</p>
+        <p>Riwayat Kredit Sedang :
+        ${kreditSedang.toFixed(2)}</p>
 
-    <p>Disetujui :
-    ${disetujui.toFixed(2)}</p>
+        <p>Riwayat Kredit Baik :
+        ${kreditBaik.toFixed(2)}</p>
 
     </div>
 
@@ -539,16 +443,68 @@ function prosesFuzzy(){
 
     <div class="card">
 
-    <h3>Defuzzifikasi Real-Time</h3>
+        <h3>Hasil Fuzzifikasi Rasio Hutang</h3>
 
-    <p>Pembilang :
-    ${pembilang.toFixed(2)}</p>
+        <p>Rasio Hutang Rendah :
+        ${hutangRendah.toFixed(2)}</p>
 
-    <p>Penyebut :
-    ${penyebut.toFixed(2)}</p>
+        <p>Rasio Hutang Sedang :
+        ${hutangSedang.toFixed(2)}</p>
 
-    <p>Nilai Crisp :
-    ${hasilCrisp.toFixed(2)}</p>
+        <p>Rasio Hutang Tinggi :
+        ${hutangTinggi.toFixed(2)}</p>
+
+    </div>
+
+
+
+    <div class="card">
+
+        <h3>Hasil Inferensi Mamdani</h3>
+
+        <p>R1 : ${r1.toFixed(2)}</p>
+        <p>R2 : ${r2.toFixed(2)}</p>
+        <p>R3 : ${r3.toFixed(2)}</p>
+        <p>R4 : ${r4.toFixed(2)}</p>
+        <p>R5 : ${r5.toFixed(2)}</p>
+        <p>R6 : ${r6.toFixed(2)}</p>
+        <p>R7 : ${r7.toFixed(2)}</p>
+        <p>R8 : ${r8.toFixed(2)}</p>
+        <p>R9 : ${r9.toFixed(2)}</p>
+
+    </div>
+
+
+
+    <div class="card">
+
+        <h3>Komposisi MAX</h3>
+
+        <p>Ditolak :
+        ${ditolak.toFixed(2)}</p>
+
+        <p>Dipertimbangkan :
+        ${dipertimbangkan.toFixed(2)}</p>
+
+        <p>Disetujui :
+        ${disetujui.toFixed(2)}</p>
+
+    </div>
+
+
+
+    <div class="card">
+
+        <h3>Defuzzifikasi</h3>
+
+        <p>Pembilang :
+        ${pembilang.toFixed(2)}</p>
+
+        <p>Penyebut :
+        ${penyebut.toFixed(2)}</p>
+
+        <p>Nilai Crisp :
+        ${hasilCrisp.toFixed(2)}</p>
 
     </div>
 
