@@ -1,9 +1,6 @@
 function prosesFuzzy() {
 
-    // ─────────────────────────
-    // 1. INPUT
-    // ─────────────────────────
-
+    //Input
     const penghasilan = parseFloat(document.getElementById("penghasilan").value);
     const lamaKerja   = parseFloat(document.getElementById("lamaKerja").value);
     const riwayat     = parseFloat(document.getElementById("riwayat").value);
@@ -14,12 +11,8 @@ function prosesFuzzy() {
         return;
     }
 
-
-    // ─────────────────────────
-    // 2. FUZZIFIKASI
-    // ─────────────────────────
-
-    // -- Penghasilan (0-15 juta) --
+    //Fuzzifikasi
+    //Penghasilan
     let penghasilanRendah = 0, penghasilanSedang = 0, penghasilanTinggi = 0;
 
     if      (penghasilan <= 5)                      penghasilanRendah = 1;
@@ -32,7 +25,7 @@ function prosesFuzzy() {
     else if (penghasilan >= 11)                     penghasilanTinggi = 1;
 
 
-    // -- Lama Bekerja (0-15 tahun) --
+    //Lama Bekerja
     let kerjaBaru = 0, kerjaCukup = 0, kerjaLama = 0;
 
     if      (lamaKerja <= 3)                        kerjaBaru  = 1;
@@ -45,7 +38,7 @@ function prosesFuzzy() {
     else if (lamaKerja >= 9)                        kerjaLama  = 1;
 
 
-    // -- Riwayat Kredit (0-100) --
+    //Riwayat Kredit
     let kreditBuruk = 0, kreditSedang = 0, kreditBaik = 0;
 
     if      (riwayat <= 50)                         kreditBuruk  = 1;
@@ -58,7 +51,7 @@ function prosesFuzzy() {
     else if (riwayat >= 80)                         kreditBaik   = 1;
 
 
-    // -- Rasio Hutang (0-100%) --
+    //Rasio Hutang
     let hutangRendah = 0, hutangSedang = 0, hutangTinggi = 0;
 
     if      (hutang <= 30)                          hutangRendah = 1;
@@ -70,23 +63,10 @@ function prosesFuzzy() {
     if      (hutang > 60   && hutang <= 70)         hutangTinggi = (hutang - 60)  / 10;
     else if (hutang >= 70)                          hutangTinggi = 1;
 
-
-    // ─────────────────────────
-    // 3. RULE BASE — 81 RULE
-    // ─────────────────────────
-    //
-    // Key  : "iP,iL,iR,iH"
-    //   iP : 0=Rendah  1=Sedang  2=Tinggi   (Penghasilan)
-    //   iL : 0=Baru    1=Cukup   2=Lama     (Lama Kerja)
-    //   iR : 0=Buruk   1=Sedang  2=Baik     (Riwayat Kredit)
-    //   iH : 0=Rendah  1=Sedang  2=Tinggi   (Rasio Hutang)
-    //
-    // Value: 0=Ditolak  1=Dipertimbangkan  2=Disetujui
-    // ─────────────────────────
-
+    //Rule Base
     const ruleTable = {
 
-        // ══ PENGHASILAN RENDAH ══════════════════════════════════
+        //Penghasilan Rendah
         "0,0,0,0": 0, "0,0,0,1": 0, "0,0,0,2": 0,
         "0,0,1,0": 0, "0,0,1,1": 0, "0,0,1,2": 0,
         "0,0,2,0": 0, "0,0,2,1": 0, "0,0,2,2": 0,
@@ -99,8 +79,7 @@ function prosesFuzzy() {
         "0,2,1,0": 1, "0,2,1,1": 0, "0,2,1,2": 0,
         "0,2,2,0": 1, "0,2,2,1": 1, "0,2,2,2": 0,
 
-
-        // ══ PENGHASILAN SEDANG ══════════════════════════════════
+        //Penghasilan Sedang
         "1,0,0,0": 0, "1,0,0,1": 0, "1,0,0,2": 0,
         "1,0,1,0": 1, "1,0,1,1": 0, "1,0,1,2": 0,
         "1,0,2,0": 1, "1,0,2,1": 1, "1,0,2,2": 0,
@@ -113,8 +92,7 @@ function prosesFuzzy() {
         "1,2,1,0": 1, "1,2,1,1": 1, "1,2,1,2": 0,
         "1,2,2,0": 2, "1,2,2,1": 1, "1,2,2,2": 1,
 
-
-        // ══ PENGHASILAN TINGGI ══════════════════════════════════
+        //Penghasilan Tinggi
         "2,0,0,0": 1, "2,0,0,1": 0, "2,0,0,2": 0,
         "2,0,1,0": 1, "2,0,1,1": 1, "2,0,1,2": 0,
         "2,0,2,0": 2, "2,0,2,1": 1, "2,0,2,2": 1,
@@ -139,11 +117,7 @@ function prosesFuzzy() {
     const muRiwayat     = [kreditBuruk, kreditSedang, kreditBaik];
     const muHutang      = [hutangRendah, hutangSedang, hutangTinggi];
 
-
-    // ─────────────────────────
-    // 4. INFERENSI MAMDANI
-    // ─────────────────────────
-
+    //Inferensi Mamdani
     let alphaDitolak = 0, alphaDipertimbangkan = 0, alphaDisetujui = 0;
     const ruleAktif = [];
     let ruleNo = 1;
@@ -193,11 +167,7 @@ function prosesFuzzy() {
     const dipertimbangkan = alphaDipertimbangkan;
     const disetujui = alphaDisetujui;
 
-
-    // ─────────────────────────
-    // 5. DEFUZZIFIKASI CENTROID
-    // ─────────────────────────
-
+    //Defuzzifikasi
     let pembilang = 0, penyebut = 0;
 
     for (let z = 0; z <= 100; z += 0.1) {
@@ -226,11 +196,7 @@ function prosesFuzzy() {
 
     const hasilCrisp = pembilang / penyebut;
 
-
-    // ─────────────────────────
-    // 6. KEPUTUSAN
-    // ─────────────────────────
-
+    //Hasil
     let labelKeputusan, kelasKeputusan;
 
     if (hasilCrisp >= 70) {
@@ -244,11 +210,7 @@ function prosesFuzzy() {
         kelasKeputusan = "ditolak";
     }
 
-
-    // ─────────────────────────
-    // 7. TAMPILKAN HASIL
-    // ─────────────────────────
-
+    //Tampilkan Hasil
     const f4 = v => v.toFixed(4);
     const f2 = v => v.toFixed(2);
 
@@ -258,37 +220,37 @@ function prosesFuzzy() {
 
     document.getElementById("el-crisp").textContent = f2(hasilCrisp);
 
-    // -- Fuzzifikasi Penghasilan --
+    //Fuzzifikasi Penghasilan
     document.getElementById("fp-rendah").textContent = f4(penghasilanRendah);
     document.getElementById("fp-sedang").textContent = f4(penghasilanSedang);
     document.getElementById("fp-tinggi").textContent = f4(penghasilanTinggi);
 
-    // -- Fuzzifikasi Lama Kerja --
+    //Fuzzifikasi Lama Kerja
     document.getElementById("fk-baru").textContent = f4(kerjaBaru);
     document.getElementById("fk-cukup").textContent = f4(kerjaCukup);
     document.getElementById("fk-lama").textContent = f4(kerjaLama);
 
-    // -- Fuzzifikasi Riwayat Kredit --
+    //Fuzzifikasi Riwayat Kredit
     document.getElementById("fr-buruk").textContent = f4(kreditBuruk);
     document.getElementById("fr-sedang").textContent = f4(kreditSedang);
     document.getElementById("fr-baik").textContent = f4(kreditBaik);
 
-    // -- Fuzzifikasi Rasio Hutang --
+    //Fuzzifikasi Rasio Hutang
     document.getElementById("fh-rendah").textContent = f4(hutangRendah);
     document.getElementById("fh-sedang").textContent = f4(hutangSedang);
     document.getElementById("fh-tinggi").textContent = f4(hutangTinggi);
 
-    // -- Komposisi MAX --
+    //Komposisi MAX
     document.getElementById("komp-tolak").textContent = f4(ditolak);
     document.getElementById("komp-pertimbang").textContent = f4(dipertimbangkan);
     document.getElementById("komp-setuju").textContent = f4(disetujui);
 
-    // -- Defuzzifikasi --
+    //Defuzzifikasi
     document.getElementById("d-pembilang").textContent = f2(pembilang);
     document.getElementById("d-penyebut").textContent = f4(penyebut);
     document.getElementById("d-crisp").textContent = f2(hasilCrisp);
 
-    // -- Tabel Rule Aktif --
+    //Tabel Rule Aktif
     const badgeClass = out =>
         out === "Disetujui"       ? "badge badge-disetujui"       :
         out === "Dipertimbangkan" ? "badge badge-dipertimbangkan" :
